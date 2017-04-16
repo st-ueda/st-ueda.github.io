@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>maruimenu</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box;}
+body {
+  background-color: #eef;
+  overflow: hidden;
+}
+
+/*ボタン基本設定*/
+.ctrl {
+  position: absolute;
+
+  top: 5%;
+  left: 5%;
+  font-size: 3em; /*全体の大きさの基準*/
+  transition: .5s; /*変形アニメーション時間*/
+}
+
+
+/*リンク基本設定*/
+a.ctrl,
+.ctrl a {
+  display: block;       /*ボタンと各メニュー項目をブロック要素に*/
+  opacity: .66;         /*初期値を半透明に、:hoverで透明度0にする指定*/
+  background: transparent;
+  color: #333;
+  text-align: center;
+  text-decoration: none;
+}
+
+a.ctrl:hover,
+.ctrl a:hover,
+.ctrl a:focus {
+  opacity: 1;            /*半透明だったところがマウスオーバーで透過なしに*/
+}
+
+/*中央にテキストを表示しない場合はここをアクティブに
+a.ctrl:focus {
+  opacity: 0;
+}*/
+
+a.ctrl:focus{
+top: 50%;
+left: 50%;
+}
+a.ctrl:focus,
+.ctrl a:focus {
+  outline: none;
+}
+
+a.ctrl::before {
+  content: "≡";
+}
+
+a.ctrl:focus::before {
+  content: "MENU";
+  margin-left: -.75em;
+  text-shadow: 5px 5px 5px #ccc;
+}
+
+.button {
+  z-index: 2;
+  width: 1.25em;
+  height: 1.25em;
+  margin:-.625em
+}
+
+/*メニュー項目*/
+
+.tip {
+  z-index: 1;
+  margin: -5em;
+  width: 10em;
+  height: 10em;
+  list-style: none;
+  transform: scale(.001); /*非アクティブ時は拡大率を0.001に縮小*/
+  opacity: 0;             /*完全に透明に*/
+}
+
+/*クリック時(.btton:focus)のアクション*/
+.button:focus + .tip {
+  transform: scale(1);    /*拡大率を1に戻す*/
+  opacity: 1;             /*透明解除*/
+  top: 50%;               /*画面中央に*/
+  left: 50%;               /*画面中央に*/
+}
+
+/*各メニュー項目の分割*/
+.menu-item {
+  overflow: hidden;
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  transform-origin: 101% 101%;  /*変形の基準点設定 （100% 100%で項目間の隙間なし）*/
+}
+
+/*角度で分割
+*rotateの求め方 = （A/2) + (k - (n+1)/2)*A
+*A = メニュー項目一つあたりの専有角度 72°
+*k = 何番目の項目か
+*n = 分割数 5
+*※偶数項目数の場合rotateの角度は(k - n/2)*A
+*
+*(72/2) + (k - (5+1)/2)*72
+*
+*skewYの求め方 = 90-A
+*/
+.menu-item:first-child {
+  transform:rotate(-18deg) skewY(18deg);
+}
+.menu-item:nth-child(2) {
+  transform: rotate(54deg) skewY(18deg);
+}
+.menu-item:nth-child(3) {
+  transform: rotate(126deg) skewY(18deg);
+}
+.menu-item:nth-child(4) {
+  transform: rotate(198deg) skewY(18deg);
+}
+.menu-item:last-child {
+  transform: rotate(270deg) skewY(18deg);
+}
+
+/*メニューの背景になる部分*/
+.menu-item a {
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  transform: skewY(-18deg) rotate(-36deg);
+
+  /*背景色透過で中央部の空白を30.5％分作成 最後の色指定が背景色となる*/
+  background: radial-gradient(rgba(127,127,127,0) 30.5%, rgba(255,255,153,.6) 30.5%, /*透過部分*/
+    rgba(255,255,153,.8) 31%, rgba(	255,255,101,.8 ));   /*背景色部分*/
+}
+
+/*メニュー項目中身の設定*/
+
+.menu-item * {
+  width: 15%;
+  height: 15%;
+}
+
+/*項目内の画像の傾き矯正*/
+
+.menu-item:first-child img {
+  transform:rotate(54deg);
+  margin-top: 5%;
+}
+.menu-item:nth-child(2) img {
+  transform: rotate(-18deg);
+  margin-top: 5%;
+}
+.menu-item:nth-child(3) img {
+  transform: rotate(-90deg);
+  margin-top: 5%;
+}
+.menu-item:nth-child(4) img {
+  transform: rotate(-162deg);
+  margin-top: 5%;
+}
+.menu-item:last-child img {
+  transform: rotate(-234deg);
+  margin-top: 5%;
+}
+
+</style>
+
+<a class="button ctrl" href="#"></a>
+<ul class="tip ctrl">
+  <li class="menu-item"><a href=""><img src="img/home.png" alt=""></a></li>
+  <li class="menu-item"><a href=""><img src="img/map.png" alt=""></a></li>
+  <li class="menu-item"><a href=""><img src="img/FB-fLogo-Blue-broadcast-2.png" alt=""></a></li>
+  <li class="menu-item"><a href=""><img src="img/Twitter-icon.png" alt=""></a></li>
+  <li class="menu-item"><a href=""><img src="img/youtube.png" alt=""></a></li>
+</ul>
